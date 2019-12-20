@@ -1,0 +1,149 @@
+fileFormatVersion: 2
+guid: 2464b97a00d674a49a48954ba8e7ca5b
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: cabinet_door_L_low
+    100002: cabinet_door_R_low
+    100004: cabinet_low
+    100006: door_keylock_low
+    100008: door_pinlock_L_low
+    100010: door_pinlock_low
+    100012: handle_L_low
+    100014: handle_R_low
+    100016: shelf_1_low
+    100018: shelf_2_low
+    100020: shelf_3_low
+    100022: //RootNode
+    400000: cabinet_door_L_low
+    400002: cabinet_door_R_low
+    400004: cabinet_low
+    400006: door_keylock_low
+    400008: door_pinlock_L_low
+    400010: door_pinlock_low
+    400012: handle_L_low
+    400014: handle_R_low
+    400016: shelf_1_low
+    400018: shelf_2_low
+    400020: shelf_3_low
+    400022: //RootNode
+    2100000: CabinetMat
+    2300000: cabinet_door_L_low
+    2300002: cabinet_door_R_low
+    2300004: cabinet_low
+    2300006: door_keylock_low
+    2300008: door_pinlock_L_low
+    2300010: door_pinlock_low
+    2300012: handle_L_low
+    2300014: handle_R_low
+    2300016: shelf_1_low
+    2300018: shelf_2_low
+    2300020: shelf_3_low
+    3300000: cabinet_door_L_low
+    3300002: cabinet_door_R_low
+    3300004: cabinet_low
+    3300006: door_keylock_low
+    3300008: door_pinlock_L_low
+    3300010: door_pinlock_low
+    3300012: handle_L_low
+    3300014: handle_R_low
+    3300016: shelf_1_low
+    3300018: shelf_2_low
+    3300020: shelf_3_low
+    4300000: cabinet_door_L_low
+    4300002: cabinet_door_R_low
+    4300004: cabinet_low
+    4300006: door_keylock_low
+    4300008: door_pinlock_L_low
+    4300010: door_pinlock_low
+    4300012: handle_L_low
+    4300014: handle_R_low
+    4300016: shelf_1_low
+    4300018: shelf_2_low
+    4300020: shelf_3_low
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

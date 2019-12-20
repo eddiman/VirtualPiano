@@ -1,0 +1,165 @@
+fileFormatVersion: 2
+guid: 8d1adffe7a5c6ab47ac0e440fe74019a
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: door_frame_low
+    100002: //RootNode
+    100004: door_sliding_l_low
+    100006: door_sliding_r_low
+    100008: pinlock_base_low
+    100010: pinlock_body_low
+    100012: pinlock_buttons_1_low
+    100014: pinlock_buttons_2_low
+    100016: pinlock_buttons_3_low
+    100018: pinlock_buttons_4_low
+    100020: pinlock_buttons_5_low
+    100022: pinlock_buttons_6_low
+    100024: pinlock_buttons_7_low
+    100026: pinlock_buttons_8_low
+    100028: pinlock_buttons_9_low
+    400000: door_frame_low
+    400002: //RootNode
+    400004: door_sliding_l_low
+    400006: door_sliding_r_low
+    400008: pinlock_base_low
+    400010: pinlock_body_low
+    400012: pinlock_buttons_1_low
+    400014: pinlock_buttons_2_low
+    400016: pinlock_buttons_3_low
+    400018: pinlock_buttons_4_low
+    400020: pinlock_buttons_5_low
+    400022: pinlock_buttons_6_low
+    400024: pinlock_buttons_7_low
+    400026: pinlock_buttons_8_low
+    400028: pinlock_buttons_9_low
+    2100000: pinlock
+    2100002: door
+    2300000: door_frame_low
+    2300002: door_sliding_l_low
+    2300004: door_sliding_r_low
+    2300006: pinlock_base_low
+    2300008: pinlock_body_low
+    2300010: pinlock_buttons_1_low
+    2300012: pinlock_buttons_2_low
+    2300014: pinlock_buttons_3_low
+    2300016: pinlock_buttons_4_low
+    2300018: pinlock_buttons_5_low
+    2300020: pinlock_buttons_6_low
+    2300022: pinlock_buttons_7_low
+    2300024: pinlock_buttons_8_low
+    2300026: pinlock_buttons_9_low
+    3300000: door_frame_low
+    3300002: door_sliding_l_low
+    3300004: door_sliding_r_low
+    3300006: pinlock_base_low
+    3300008: pinlock_body_low
+    3300010: pinlock_buttons_1_low
+    3300012: pinlock_buttons_2_low
+    3300014: pinlock_buttons_3_low
+    3300016: pinlock_buttons_4_low
+    3300018: pinlock_buttons_5_low
+    3300020: pinlock_buttons_6_low
+    3300022: pinlock_buttons_7_low
+    3300024: pinlock_buttons_8_low
+    3300026: pinlock_buttons_9_low
+    4300000: pinlock_base_low
+    4300002: pinlock_body_low
+    4300004: pinlock_buttons_9_low
+    4300006: door_frame_low
+    4300008: pinlock_buttons_1_low
+    4300010: pinlock_buttons_2_low
+    4300012: pinlock_buttons_3_low
+    4300014: pinlock_buttons_4_low
+    4300016: pinlock_buttons_5_low
+    4300018: pinlock_buttons_6_low
+    4300020: pinlock_buttons_7_low
+    4300022: pinlock_buttons_8_low
+    4300024: door_sliding_r_low
+    4300026: door_sliding_l_low
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,185 @@
+fileFormatVersion: 2
+guid: eeb5aad06ea729d43bee0c4945457500
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: drawer_handle2
+    100002: drawer_handle2 1
+    100004: drawer_handle2 2
+    100006: drawer_low2
+    100008: drawer_low3
+    100010: drawer_low4
+    100012: drawer_seg5
+    100014: Drawers_top
+    100016: guard_1
+    100018: guard_2
+    100020: guard_3
+    100022: guard_4
+    100024: //RootNode
+    100026: Table_leg2
+    100028: Table_leg3
+    100030: Table_leg4
+    100032: Table_leg5
+    100034: table_top
+    100036: TableSet
+    400000: drawer_handle2
+    400002: drawer_handle2 1
+    400004: drawer_handle2 2
+    400006: drawer_low2
+    400008: drawer_low3
+    400010: drawer_low4
+    400012: drawer_seg5
+    400014: Drawers_top
+    400016: guard_1
+    400018: guard_2
+    400020: guard_3
+    400022: guard_4
+    400024: //RootNode
+    400026: Table_leg2
+    400028: Table_leg3
+    400030: Table_leg4
+    400032: Table_leg5
+    400034: table_top
+    400036: TableSet
+    2100000: Table_Drawers
+    2100002: Tabletop
+    2300000: drawer_handle2
+    2300002: drawer_handle2 1
+    2300004: drawer_handle2 2
+    2300006: drawer_low2
+    2300008: drawer_low3
+    2300010: drawer_low4
+    2300012: drawer_seg5
+    2300014: Drawers_top
+    2300016: guard_1
+    2300018: guard_2
+    2300020: guard_3
+    2300022: guard_4
+    2300024: Table_leg2
+    2300026: Table_leg3
+    2300028: Table_leg4
+    2300030: Table_leg5
+    2300032: table_top
+    2300034: TableSet
+    3300000: drawer_handle2
+    3300002: drawer_handle2 1
+    3300004: drawer_handle2 2
+    3300006: drawer_low2
+    3300008: drawer_low3
+    3300010: drawer_low4
+    3300012: drawer_seg5
+    3300014: Drawers_top
+    3300016: guard_1
+    3300018: guard_2
+    3300020: guard_3
+    3300022: guard_4
+    3300024: Table_leg2
+    3300026: Table_leg3
+    3300028: Table_leg4
+    3300030: Table_leg5
+    3300032: table_top
+    3300034: TableSet
+    4300000: TableSet
+    4300002: drawer_seg5
+    4300004: drawer_low2
+    4300006: drawer_handle2
+    4300008: drawer_low3
+    4300010: drawer_handle2
+    4300012: drawer_low4
+    4300014: drawer_handle2
+    4300016: Drawers_top
+    4300018: table_top
+    4300020: Table_leg2
+    4300022: Table_leg3
+    4300024: Table_leg4
+    4300026: Table_leg5
+    4300028: guard_1
+    4300030: guard_2
+    4300032: guard_3
+    4300034: guard_4
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
