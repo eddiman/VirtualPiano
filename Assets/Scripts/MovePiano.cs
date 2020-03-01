@@ -35,7 +35,7 @@ public class MovePiano : MonoBehaviour
     IEnumerator MoveToHandCoroutine(Vector3 handPos)
     {
         float counter = 0;
-        float duration = 2f;
+        float duration = 4f;
 
         //Get the current position of the object to be moved
 
