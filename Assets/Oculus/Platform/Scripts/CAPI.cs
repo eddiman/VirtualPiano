@@ -277,9 +277,6 @@ namespace Oculus.Platform
     [DllImport(DLL_NAME, CallingConvention=CallingConvention.Cdecl)]
     public static extern void ovr_FreeMessage(IntPtr message);
 
-    [DllImport(DLL_NAME, CallingConvention=CallingConvention.Cdecl)]
-    public static extern uint ovr_NetworkingPeer_GetSendPolicy(IntPtr networkingPeer);
-
 
     // VOIP
 
@@ -415,7 +412,7 @@ namespace Oculus.Platform
     public static extern UIntPtr ovr_NetSync_GetPcmBufferMaxSamples();
 
     [DllImport(DLL_NAME, CallingConvention=CallingConvention.Cdecl)]
-    public static extern void ovr_NetSync_SetListenerPosition(long connection_id, ovrNetSyncVec3 position);
+    public static extern void ovr_NetSync_SetListenerPosition(long connection_id, ref ovrNetSyncVec3 position);
 
     [DllImport(DLL_NAME, CallingConvention=CallingConvention.Cdecl)]
     public static extern void ovr_Net_Accept(UInt64 peerID);

@@ -31,7 +31,6 @@ public class OVRExternalComposition : OVRComposition
 	public Camera foregroundCamera = null;
 	public GameObject backgroundCameraGameObject = null;
 	public Camera backgroundCamera = null;
-	public GameObject cameraProxyPlane = null;
 #if OVR_ANDROID_MRC
 	public AudioListener audioListener;
 	public OVRMRAudioFilter audioFilter;
@@ -72,7 +71,6 @@ public class OVRExternalComposition : OVRComposition
 			backgroundCamera = null;
 			OVRCompositionUtil.SafeDestroy(ref foregroundCameraGameObject);
 			foregroundCamera = null;
-			OVRCompositionUtil.SafeDestroy(ref cameraProxyPlane);
 
 			RefreshCameraRig(parentObject, mainCamera);
 
@@ -125,27 +123,6 @@ public class OVRExternalComposition : OVRComposition
 #if OVR_ANDROID_MRC
 			foregroundCamera.targetTexture = mrcRenderTextureArray[0];
 #endif
-
-			// Create cameraProxyPlane for clipping
-			Debug.Assert(cameraProxyPlane == null);
-			cameraProxyPlane = GameObject.CreatePrimitive(PrimitiveType.Quad);
-			cameraProxyPlane.name = "OculusMRC_ProxyClipPlane";
-			cameraProxyPlane.transform.parent = cameraInTrackingSpace ? cameraRig.trackingSpace : parentObject.transform;
-			cameraProxyPlane.GetComponent<Collider>().enabled = false;
-			cameraProxyPlane.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-			Material clipMaterial = new Material(Shader.Find("Oculus/OVRMRClipPlane"));
-			cameraProxyPlane.GetComponent<MeshRenderer>().material = clipMaterial;
-#if OVR_ANDROID_MRC
-			clipMaterial.SetColor("_Color", OVRManager.instance.externalCompositionBackdropColorQuest);
-#else
-			clipMaterial.SetColor("_Color", OVRManager.instance.externalCompositionBackdropColorRift);
-#endif
-			clipMaterial.SetFloat("_Visible", 0.0f);
-			cameraProxyPlane.transform.localScale = new Vector3(1000, 1000, 1000);
-			cameraProxyPlane.SetActive(true);
-			OVRMRForegroundCameraManager foregroundCameraManager = foregroundCameraGameObject.AddComponent<OVRMRForegroundCameraManager>();
-			foregroundCameraManager.composition = this;
-			foregroundCameraManager.clipPlaneGameObj = cameraProxyPlane;
 
 			previousMainCameraObject = mainCamera.gameObject;
 		}
@@ -342,11 +319,9 @@ public class OVRExternalComposition : OVRComposition
 			}
 		}
 
-		// Assume player always standing straightly
-		Vector3 externalCameraToHeadXZ = mainCamera.transform.position - foregroundCamera.transform.position;
-		externalCameraToHeadXZ.y = 0;
-		cameraProxyPlane.transform.position = mainCamera.transform.position;
-		cameraProxyPlane.transform.LookAt(cameraProxyPlane.transform.position + externalCameraToHeadXZ);
+		Vector3 headToExternalCameraVec = mainCamera.transform.position - foregroundCamera.transform.position;
+		float clipDistance = Vector3.Dot(headToExternalCameraVec, foregroundCamera.transform.forward);
+		foregroundCamera.farClipPlane = Mathf.Max(foregroundCamera.nearClipPlane + 0.001f, clipDistance);
 	}
 
 #if OVR_ANDROID_MRC
@@ -369,7 +344,6 @@ public class OVRExternalComposition : OVRComposition
 		backgroundCamera = null;
 		OVRCompositionUtil.SafeDestroy(ref foregroundCameraGameObject);
 		foregroundCamera = null;
-		OVRCompositionUtil.SafeDestroy(ref cameraProxyPlane);
 		Debug.Log("ExternalComposition deactivated");
 
 #if OVR_ANDROID_MRC
@@ -425,34 +399,6 @@ public class OVRExternalComposition : OVRComposition
 		}
 	}
 
-}
-
-/// <summary>
-/// Helper internal class for foregroundCamera, don't call it outside
-/// </summary>
-internal class OVRMRForegroundCameraManager : MonoBehaviour
-{
-	public OVRExternalComposition composition;
-	public GameObject clipPlaneGameObj;
-	private Material clipPlaneMaterial;
-	void OnPreRender()
-	{
-		// the clipPlaneGameObj should be only visible to foreground camera
-		if (clipPlaneGameObj)
-		{
-			if (clipPlaneMaterial == null)
-				clipPlaneMaterial = clipPlaneGameObj.GetComponent<MeshRenderer>().material;
-			clipPlaneGameObj.GetComponent<MeshRenderer>().material.SetFloat("_Visible", 1.0f);
-		}
-	}
-	void OnPostRender()
-	{
-		if (clipPlaneGameObj)
-		{
-			Debug.Assert(clipPlaneMaterial);
-			clipPlaneGameObj.GetComponent<MeshRenderer>().material.SetFloat("_Visible", 0.0f);
-		}
-	}
 }
 
 #if OVR_ANDROID_MRC

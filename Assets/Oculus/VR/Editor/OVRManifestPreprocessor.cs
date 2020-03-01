@@ -95,6 +95,23 @@ public class OVRManifestPreprocessor
 			Debug.LogWarning("Manifest error: unable to locate headset handtracking mode");
 		}
 
+		int focusAwareTextIndex = manifestText.IndexOf("<!-- Request the headset focus aware -->");
+		if (focusAwareTextIndex != -1)
+		{
+			if (OVRDeviceSelector.isTargetDeviceQuest)
+			{
+				if(OVRProjectConfig.GetProjectConfig().focusAware)
+				{
+					string focusAwareText = "<meta-data android:name=\"com.oculus.vr.focusaware\" android:value=\"true\" />";
+					manifestText = manifestText.Insert(focusAwareTextIndex, focusAwareText);
+				}
+			}
+		}
+		else
+		{
+			Debug.LogWarning("Manifest error: unable to locate headset focus aware");
+		}
+
 #if !UNITY_2018_2_OR_NEWER
 		int iconLabelText = manifestText.IndexOf("android:icon=\"@mipmap/app_icon\"");
 		if(iconLabelText != -1)

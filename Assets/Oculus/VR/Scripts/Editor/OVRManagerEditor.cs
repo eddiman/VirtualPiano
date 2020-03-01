@@ -59,6 +59,22 @@ public class OVRManagerEditor : Editor
 		}
 		EditorGUI.indentLevel--;
 
+		// Show overlay support option if only targeting for Quest
+		if (OVRDeviceSelector.isTargetDeviceQuest)
+		{
+			EditorGUI.BeginChangeCheck();
+			bool focusAware = projectConfig.focusAware;
+			GUIContent focusAwareContent = new GUIContent("Enable Focus Aware [?]",
+				"If checked, the new overlay will be displayed when the user presses the home button. The game will not be paused, but will now receive InputFocusLost and InputFocusAcquired events.");
+			focusAware = EditorGUILayout.Toggle(focusAwareContent, focusAware);
+
+			if (EditorGUI.EndChangeCheck())
+			{
+				projectConfig.focusAware = focusAware;
+				OVRProjectConfig.CommitProjectConfig(projectConfig);
+			}
+		}
+
 		EditorGUILayout.Space();
 
 		// Hand Tracking Support

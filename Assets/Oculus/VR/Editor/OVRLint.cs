@@ -640,8 +640,19 @@ public class OVRLint : EditorWindow
 		}
 	}
 
+#if UNITY_ANDROID
 	static void CheckStaticAndroidIssues()
 	{
+		if (OVRDeviceSelector.isTargetDeviceQuest && PlayerSettings.Android.targetArchitectures != AndroidArchitecture.ARM64)
+		{
+				// Quest store is only accepting 64-bit apps as of November 25th 2019
+				AddFix("Set Target Architecture to ARM64", "32-bit Quest apps are no longer being accepted on the Oculus Store.",
+						delegate (UnityEngine.Object obj, bool last, int selected)
+						{
+								PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+						}, null, false, "Fix");
+		}
+
 		// Check that the minSDKVersion meets requirement, 21 for Gear and Go, 23 for Quest
 		AndroidSdkVersions recommendedAndroidMinSdkVersion = AndroidSdkVersions.AndroidApiLevel21;
 		if (OVRDeviceSelector.isTargetDeviceQuest)
@@ -834,6 +845,8 @@ public class OVRLint : EditorWindow
 			AddFix("Draw Calls", "Please use less than 100 draw calls.", null, null, false);
 		}
 	}
+
+#endif // UNITY_ANDROID
 
 
 	enum LightmapType { Realtime = 4, Baked = 2, Mixed = 1 };

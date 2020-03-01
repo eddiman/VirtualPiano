@@ -20,6 +20,12 @@ limitations under the License.
 ************************************************************************************/
 
 //#define BUILDSESSION
+
+#if USING_XR_MANAGEMENT && USING_XR_SDK_OCULUS
+#define USING_XR_SDK
+#endif
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -27,19 +33,23 @@ using System.Xml;
 using System.Diagnostics;
 using System.Threading;
 using UnityEditor;
-using UnityEditor.Android;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEditor.Build;
 #if UNITY_2018_1_OR_NEWER
 using UnityEditor.Build.Reporting;
 #endif
-using System;
+#if UNITY_ANDROID
+using UnityEditor.Android;
+#endif
 
 [InitializeOnLoad]
 public class OVRGradleGeneration
 #if UNITY_2018_2_OR_NEWER
-	: IPreprocessBuildWithReport, IPostprocessBuildWithReport, IPostGenerateGradleAndroidProject
+	: IPreprocessBuildWithReport, IPostprocessBuildWithReport
+#if UNITY_ANDROID
+	, IPostGenerateGradleAndroidProject
+#endif
 {
 	public OVRADBTool adbTool;
 	public Process adbProcess;
@@ -84,14 +94,14 @@ public class OVRGradleGeneration
 
 	public void OnPreprocessBuild(BuildReport report)
 	{
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !(USING_XR_SDK && UNITY_2019_3_OR_NEWER)
 		// Generate error when Vulkan is selected as the perferred graphics API, which is not currently supported in Unity XR
 		if (!PlayerSettings.GetUseDefaultGraphicsAPIs(BuildTarget.Android))
 		{
 			GraphicsDeviceType[] apis = PlayerSettings.GetGraphicsAPIs(BuildTarget.Android);
 			if (apis.Length >= 1 && apis[0] == GraphicsDeviceType.Vulkan)
 			{
-				throw new BuildFailedException("XR is currently not supported when using the Vulkan Graphics API. Please go to PlayerSettings and remove 'Vulkan' from the list of Graphics APIs.");
+				throw new BuildFailedException("The Vulkan Graphics API does not support XR in your configuration. To use Vulkan, you must use Unity 2019.3 or newer, and the XR Plugin Management.");
 			}
 		}
 #endif
@@ -139,32 +149,53 @@ public class OVRGradleGeneration
 		OVRPlugin.AddCustomMetadata("target_oculus_platform", String.Join("_", targetOculusPlatform.ToArray()));
 		UnityEngine.Debug.LogFormat("  GearVR or Go = {0}  Quest = {1}", OVRDeviceSelector.isTargetDeviceGearVrOrGo, OVRDeviceSelector.isTargetDeviceQuest);
 
-		bool isQuestOnly = OVRDeviceSelector.isTargetDeviceQuest && !OVRDeviceSelector.isTargetDeviceGearVrOrGo;
+#if UNITY_2019_3_OR_NEWER
+		string gradleBuildPath = Path.Combine(path, "../launcher/build.gradle");
+#else
+		string gradleBuildPath = Path.Combine(path, "build.gradle");
+#endif
+		//Enable v2signing for Quest only
+		bool v2SigningEnabled = OVRDeviceSelector.isTargetDeviceQuest && !OVRDeviceSelector.isTargetDeviceGearVrOrGo;
 
-		if (isQuestOnly)
+		if (File.Exists(gradleBuildPath))
 		{
-			if (File.Exists(Path.Combine(path, "build.gradle")))
+			try
 			{
-				try
-				{
-					string gradle = File.ReadAllText(Path.Combine(path, "build.gradle"));
+				string gradle = File.ReadAllText(gradleBuildPath);
+				int v2Signingindex = gradle.IndexOf("v2SigningEnabled false");
 
-					int v2Signingindex = gradle.IndexOf("v2SigningEnabled false");
-					if (v2Signingindex != -1)
+				if (v2Signingindex != -1)
+				{
+					//v2 Signing flag found, ensure the correct value is set based on platform.
+					if (v2SigningEnabled)
 					{
 						gradle = gradle.Replace("v2SigningEnabled false", "v2SigningEnabled true");
-						System.IO.File.WriteAllText(Path.Combine(path, "build.gradle"), gradle);
+						System.IO.File.WriteAllText(gradleBuildPath, gradle);
 					}
 				}
-				catch (System.Exception e)
+				else
 				{
-					UnityEngine.Debug.LogWarningFormat("Unable to overwrite build.gradle, error {0}", e.Message);
+					//v2 Signing flag missing, add it right after the key store password and set the value based on platform.
+					int keyPassIndex = gradle.IndexOf("keyPassword");
+					if (keyPassIndex != -1)
+					{
+						int v2Index = gradle.IndexOf("\n", keyPassIndex) + 1;
+						if(v2Index != -1)
+						{
+							gradle = gradle.Insert(v2Index, "v2SigningEnabled " + (v2SigningEnabled ? "true" : "false") + "\n");
+							System.IO.File.WriteAllText(gradleBuildPath, gradle);
+						}
+					}
 				}
 			}
-			else
+			catch (System.Exception e)
 			{
-				UnityEngine.Debug.LogWarning("Unable to locate build.gradle");
+				UnityEngine.Debug.LogWarningFormat("Unable to overwrite build.gradle, error {0}", e.Message);
 			}
+		}
+		else
+		{
+			UnityEngine.Debug.LogWarning("Unable to locate build.gradle");
 		}
 
 		PatchAndroidManifest(path);
@@ -323,7 +354,7 @@ public class OVRGradleGeneration
 						{
 							applicationNode.SetAttribute("networkSecurityConfig", androidNamepsaceURI, "@xml/network_sec_config");
 
-							string securityConfigFile = Path.Combine(Application.dataPath, "Oculus/VR/Editor/network_sec_config.xml");
+							string securityConfigFile = GetOculusProjectNetworkSecConfigPath();
 							string xmlDirectory = Path.Combine(path, "src/main/res/xml");
 							try
 							{
@@ -338,6 +369,22 @@ public class OVRGradleGeneration
 								UnityEngine.Debug.LogError(e.Message);
 							}
 						}
+
+						// If only targeting Quest, check for focus aware support
+						if (OVRDeviceSelector.isTargetDeviceQuest)
+						{
+							if (projectConfig.focusAware)
+							{
+								XmlElement activityNode = (XmlElement)doc.SelectSingleNode("/manifest/application/activity");
+								if (activityNode != null)
+								{
+									XmlElement focusAwareTag = doc.CreateElement("meta-data");
+									focusAwareTag.SetAttribute("name", androidNamepsaceURI, "com.oculus.vr.focusaware");
+									focusAwareTag.SetAttribute("value", androidNamepsaceURI, "true");
+									activityNode.AppendChild(focusAwareTag);
+								}
+							}
+						}
 					}
 				}
 				doc.Save(manifestFolder + "/AndroidManifest.xml");
@@ -347,6 +394,20 @@ public class OVRGradleGeneration
 		{
 			UnityEngine.Debug.LogError(e.Message);
 		}
+	}
+
+	private static string GetOculusProjectNetworkSecConfigPath()
+	{
+		var so = ScriptableObject.CreateInstance(typeof(OVRPluginUpdaterStub));
+		var script = MonoScript.FromScriptableObject(so);
+		string assetPath = AssetDatabase.GetAssetPath(script);
+		string editorDir = Directory.GetParent(assetPath).FullName;
+		string configAssetPath = Path.GetFullPath(Path.Combine(editorDir, "network_sec_config.xml"));
+		Uri configUri = new Uri(configAssetPath);
+		Uri projectUri = new Uri(Application.dataPath);
+		Uri relativeUri = projectUri.MakeRelativeUri(configUri);
+
+		return relativeUri.ToString();
 	}
 
 	public void OnPostprocessBuild(BuildReport report)

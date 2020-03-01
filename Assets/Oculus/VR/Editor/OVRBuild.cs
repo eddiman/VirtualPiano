@@ -249,7 +249,11 @@ partial class OculusBuildApp : EditorWindow
 			jdkPath = OVRConfig.Instance.GetJDKPath();
 			androidSdkPath = OVRConfig.Instance.GetAndroidSDKPath();
 			applicationIdentifier = PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android);
+#if UNITY_2019_3_OR_NEWER
+			productName = "launcher";
+#else
 			productName = Application.productName;
+#endif
 			dataPath = Application.dataPath;
 
 			buildThread = new Thread(delegate ()
@@ -296,7 +300,12 @@ partial class OculusBuildApp : EditorWindow
 		gradleBuildProcess = new Process();
 		string arguments = "-Xmx4096m -classpath \"" + gradlePath +
 			"\" org.gradle.launcher.GradleMain assembleDebug -x validateSigningDebug";
+#if UNITY_2019_3_OR_NEWER
+		var gradleProjectPath = gradleExport;
+#else
 		var gradleProjectPath = Path.Combine(gradleExport, productName);
+#endif
+
 		var processInfo = new System.Diagnostics.ProcessStartInfo
 		{
 			WorkingDirectory = gradleProjectPath,
@@ -505,7 +514,11 @@ partial class OculusBuildApp : EditorWindow
 
 			// Start the application on the device
 			IncrementProgressBar("Launching application on device . . .");
+#if UNITY_2019_3_OR_NEWER
+			string playerActivityName = "\"" + applicationIdentifier + "/com.unity3d.player.UnityPlayerActivity\"";
+#else
 			string playerActivityName = "\"" + applicationIdentifier + "/" + applicationIdentifier + ".UnityPlayerActivity\"";
+#endif
 			string[] appStartCommand = { "-d shell", "am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -S -f 0x10200000 -n", playerActivityName };
 			if (adbTool.RunCommand(appStartCommand, null, out output, out error) != 0) return false;
 			UnityEngine.Debug.Log("OVRADBTool: Application Start Success");
@@ -590,4 +603,4 @@ partial class OculusBuildApp : EditorWindow
 		UnityEngine.Debug.Log("OVRBuild: " + message);
 	}
 #endif //UNITY_EDITOR_WIN && UNITY_2018_1_OR_NEWER && UNITY_ANDROID
-}
+		}

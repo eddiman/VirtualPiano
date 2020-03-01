@@ -128,6 +128,8 @@ public class OVRGrabber : MonoBehaviour
                 m_parentTransform.rotation = Quaternion.identity;
             }
         }
+		// We're going to setup the player collision to ignore the hand collision.
+		SetPlayerIgnoreCollision(gameObject, true);
     }
 
     virtual public void Update()
@@ -404,15 +406,16 @@ public class OVRGrabber : MonoBehaviour
 	{
 		if (m_player != null)
 		{
-			Collider playerCollider = m_player.GetComponent<Collider>();
-			if (playerCollider != null)
+			Collider[] playerColliders = m_player.GetComponentsInChildren<Collider>();
+			foreach (Collider pc in playerColliders)
 			{
-				Collider[] colliders = grabbable.GetComponents<Collider>();
+				Collider[] colliders = grabbable.GetComponentsInChildren<Collider>();
 				foreach (Collider c in colliders)
 				{
-					Physics.IgnoreCollision(c, playerCollider, ignore);
+					Physics.IgnoreCollision(c, pc, ignore);
 				}
 			}
 		}
 	}
 }
+

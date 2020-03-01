@@ -29,6 +29,19 @@ public class OVRMeshRenderer : MonoBehaviour
 	{
 		public bool IsDataValid { get; set; }
 		public bool IsDataHighConfidence { get; set; }
+		public bool ShouldUseSystemGestureMaterial { get; set; }
+	}
+
+	public enum ConfidenceBehavior
+	{
+		None,
+		ToggleRenderer,
+	}
+
+	public enum SystemGestureBehavior
+	{
+		None,
+		SwapMaterial,
 	}
 
 	[SerializeField]
@@ -37,9 +50,20 @@ public class OVRMeshRenderer : MonoBehaviour
 	private OVRMesh _ovrMesh;
 	[SerializeField]
 	private OVRSkeleton _ovrSkeleton;
+	[SerializeField]
+	private ConfidenceBehavior _confidenceBehavior = ConfidenceBehavior.ToggleRenderer;
+	[SerializeField]
+	private SystemGestureBehavior _systemGestureBehavior = SystemGestureBehavior.SwapMaterial;
+	[SerializeField]
+	private Material _systemGestureMaterial = null;
+	private Material _originalMaterial = null;
 
 	private SkinnedMeshRenderer _skinnedMeshRenderer;
-	private bool _isInitialized;
+
+	public bool IsInitialized { get; private set; }
+	public bool IsDataValid { get; private set; }
+	public bool IsDataHighConfidence { get; private set; }
+	public bool ShouldUseSystemGestureMaterial { get; private set; }
 
 	private void Awake()
 	{
@@ -78,6 +102,7 @@ public class OVRMeshRenderer : MonoBehaviour
 			_skinnedMeshRenderer = gameObject.AddComponent<SkinnedMeshRenderer>();
 		}
 		_skinnedMeshRenderer.sharedMesh = _ovrMesh.Mesh;
+		_originalMaterial = _skinnedMeshRenderer.sharedMaterial;
 
 		if (_ovrSkeleton != null)
 		{
@@ -95,12 +120,16 @@ public class OVRMeshRenderer : MonoBehaviour
 			_skinnedMeshRenderer.updateWhenOffscreen = true;
 		}
 
-		_isInitialized = true;
+		IsInitialized = true;
 	}
 
 	private void Update()
 	{
-		if (_isInitialized)
+		IsDataValid = false;
+		IsDataHighConfidence = false;
+		ShouldUseSystemGestureMaterial = false;
+
+		if (IsInitialized)
 		{
 			bool shouldRender = false;
 
@@ -108,12 +137,34 @@ public class OVRMeshRenderer : MonoBehaviour
 			{
 				var data = _dataProvider.GetMeshRendererData();
 
+				IsDataValid = data.IsDataValid;
+				IsDataHighConfidence = data.IsDataHighConfidence;
+				ShouldUseSystemGestureMaterial = data.ShouldUseSystemGestureMaterial;
+
 				shouldRender = data.IsDataValid && data.IsDataHighConfidence;
 			}
 
-			if (_skinnedMeshRenderer != null && _skinnedMeshRenderer.enabled != shouldRender)
+			if (_confidenceBehavior == ConfidenceBehavior.ToggleRenderer)
 			{
-				_skinnedMeshRenderer.enabled = shouldRender;
+				if (_skinnedMeshRenderer != null && _skinnedMeshRenderer.enabled != shouldRender)
+				{
+					_skinnedMeshRenderer.enabled = shouldRender;
+				}
+			}
+
+			if (_systemGestureBehavior == SystemGestureBehavior.SwapMaterial)
+			{
+				if (_skinnedMeshRenderer != null)
+				{
+					if (ShouldUseSystemGestureMaterial && _systemGestureMaterial != null && _skinnedMeshRenderer.sharedMaterial != _systemGestureMaterial)
+					{
+						_skinnedMeshRenderer.sharedMaterial = _systemGestureMaterial;
+					}
+					else if (!ShouldUseSystemGestureMaterial && _originalMaterial != null && _skinnedMeshRenderer.sharedMaterial != _originalMaterial)
+					{
+						_skinnedMeshRenderer.sharedMaterial = _originalMaterial;
+					}
+				}
 			}
 		}
 	}

@@ -87,7 +87,6 @@ public class OvrAvatarSDKManager : MonoBehaviour
             AvatarLogger.LogError("No Oculus App ID has been provided for target platform. " +
                 "Go to Oculus Avatar > Edit Configuration to supply one", OvrAvatarSettings.Instance);
             appId = "0";
-            return false;
         }
         
 #if UNITY_ANDROID && !UNITY_EDITOR

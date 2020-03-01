@@ -16,6 +16,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- Request the headset focus aware -->
         </activity>
         <meta-data android:name="unityplayer.SkipPermissionsDialog" android:value="false" />
         <meta-data android:name="com.samsung.android.vr.application.mode" android:value="vr_only"/>

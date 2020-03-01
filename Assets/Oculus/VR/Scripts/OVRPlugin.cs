@@ -43,7 +43,7 @@ public static class OVRPlugin
 #if OVRPLUGIN_UNSUPPORTED_PLATFORM
 	public static readonly System.Version wrapperVersion = _versionZero;
 #else
-	public static readonly System.Version wrapperVersion = OVRP_1_44_0.version;
+	public static readonly System.Version wrapperVersion = OVRP_1_45_0.version;
 #endif
 
 #if !OVRPLUGIN_UNSUPPORTED_PLATFORM
@@ -1122,7 +1122,7 @@ public static class OVRPlugin
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Mesh
+	public class Mesh
 	{
 		public MeshType Type;
 		public uint NumVertices;
@@ -4528,16 +4528,49 @@ public static class OVRPlugin
 	public static bool GetMesh(MeshType meshType, out Mesh mesh)
 	{
 #if OVRPLUGIN_UNSUPPORTED_PLATFORM
-		mesh = default(Mesh);
+		mesh = new Mesh();
 		return false;
 #else
 		if (version >= OVRP_1_44_0.version)
 		{
-			return OVRP_1_44_0.ovrp_GetMesh(meshType, out mesh) == Result.Success;
+			mesh = new Mesh();
+			int meshSize = Marshal.SizeOf(mesh);
+			System.IntPtr meshPtr = Marshal.AllocHGlobal(meshSize);
+			Result result = OVRP_1_44_0.ovrp_GetMesh(meshType, meshPtr);
+			if (result == Result.Success)
+			{
+				Marshal.PtrToStructure(meshPtr, mesh);
+			}
+			Marshal.FreeHGlobal(meshPtr);
+
+			return (result == Result.Success);
 		}
 		else
 		{
-			mesh = default(Mesh);
+			mesh = new Mesh();
+			return false;
+		}
+#endif
+	}
+
+	public static bool GetSystemHmd3DofModeEnabled()
+	{
+#if OVRPLUGIN_UNSUPPORTED_PLATFORM
+		return false;
+#else
+		if (version >= OVRP_1_45_0.version)
+		{
+			Bool val = Bool.False;
+			Result res = OVRP_1_45_0.ovrp_GetSystemHmd3DofModeEnabled(ref val);
+			if (res == Result.Success)
+			{
+				return val == Bool.True;
+			}
+
+			return false;
+		}
+		else
+		{
 			return false;
 		}
 #endif
@@ -5331,7 +5364,7 @@ public static class OVRPlugin
 		public static extern Result ovrp_GetSkeleton(SkeletonType skeletonType, out Skeleton skeleton);
 
 		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern Result ovrp_GetMesh(MeshType meshType, out Mesh mesh);
+		public static extern Result ovrp_GetMesh(MeshType meshType, System.IntPtr meshPtr);
 
 		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Result ovrp_OverrideExternalCameraFov(int cameraId, Bool useOverriddenFov, ref Fovf fov);
@@ -5351,6 +5384,14 @@ public static class OVRPlugin
 		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern Result ovrp_SetDefaultExternalCamera(string cameraName, ref CameraIntrinsics cameraIntrinsics, ref CameraExtrinsics cameraExtrinsics);
 
+	}
+
+	private static class OVRP_1_45_0
+	{
+		public static readonly System.Version version = new System.Version(1, 45, 0);
+
+		[DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern Result ovrp_GetSystemHmd3DofModeEnabled(ref Bool enabled);
 	}
 
 #endif // !OVRPLUGIN_UNSUPPORTED_PLATFORM
