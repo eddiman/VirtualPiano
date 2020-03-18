@@ -97,7 +97,6 @@ public class OVRHand : MonoBehaviour,
 			PointerPose.localRotation = _handState.PointerPose.Orientation.FromFlippedZQuatf();
 			HandScale = _handState.HandScale;
 			HandConfidence = (TrackingConfidence)_handState.HandConfidence;
-
 			IsDataValid = true;
 			IsDataHighConfidence = IsTracked && HandConfidence == TrackingConfidence.High;
 		}

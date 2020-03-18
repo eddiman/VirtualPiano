@@ -44,7 +44,6 @@ public class MovePiano : MonoBehaviour
             counter += Time.deltaTime;
             var position = new Vector3(transform.position.x,  transform.position.y, transform.position.z);
             Vector3 newPos = new Vector3(position.x, handPos.y - offset, position.z);
-            Debug.Log(handPos.y-position.y);
 
             position =
                 Vector3.Lerp(position, newPos, counter / duration);

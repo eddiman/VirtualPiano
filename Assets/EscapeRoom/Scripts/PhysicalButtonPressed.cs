@@ -11,13 +11,11 @@ public class PhysicalButtonPressed : MonoBehaviour
 
     public void SetState(bool state) {
         if (state && !lastState && onPressed != null) {
-            Debug.Log("Button Pressed");
             onPressed.Invoke();
         }
         else
         {
             onReleased.Invoke();
-            Debug.Log("Button released");
         }
         lastState = state;
     }

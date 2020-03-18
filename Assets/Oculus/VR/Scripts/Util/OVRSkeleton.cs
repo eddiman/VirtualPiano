@@ -96,7 +96,7 @@ public class OVRSkeleton : MonoBehaviour
 
 	private GameObject _bonesGO;
 	private GameObject _bindPosesGO;
-	private GameObject _capsulesGO;
+	public GameObject _capsulesGO;
 
 	protected List<OVRBone> _bones;
 	private List<OVRBone> _bindPoses;
@@ -117,7 +117,7 @@ public class OVRSkeleton : MonoBehaviour
 		{
 			_dataProvider = GetComponent<IOVRSkeletonDataProvider>();
 		}
-		
+
 		_bones = new List<OVRBone>();
 		Bones = _bones.AsReadOnly();
 
@@ -135,7 +135,7 @@ public class OVRSkeleton : MonoBehaviour
 			Initialize();
 		}
 	}
-	
+
 	private void Initialize()
 	{
 		var skeleton = new OVRPlugin.Skeleton();
@@ -144,7 +144,7 @@ public class OVRSkeleton : MonoBehaviour
 			InitializeBones(skeleton);
 			InitializeBindPose(skeleton);
 			InitializeCapsules(skeleton);
-			
+
 			IsInitialized = true;
 		}
 	}

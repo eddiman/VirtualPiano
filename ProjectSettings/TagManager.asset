@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Legs
+  - Hand
+  - Tangent
+  - HandCapsule
   layers:
   - Default
   - TransparentFX
