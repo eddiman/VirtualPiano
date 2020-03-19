@@ -6,6 +6,7 @@ using VRTK.Prefabs.Interactions.Controllables;
 
 public class ColliderController : MonoBehaviour
 {
+    public float waitForColliderActivation = .5f;
     public void DisableEnableWaitCollider(Transform transform)
     {
         Collider colliderComp = transform.gameObject.GetComponent<Collider>();
@@ -19,7 +20,7 @@ public class ColliderController : MonoBehaviour
 
     IEnumerator ColliderWaitCoroutine(Collider collider)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(waitForColliderActivation);
         collider.enabled = true;
     }
 

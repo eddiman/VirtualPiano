@@ -22,6 +22,8 @@ public class HandPinchMover : MonoBehaviour
 
     public Color currentColor;
     public Color positioningColor;
+
+    public bool isLeftPinching;
     protected void Start()
     {
         _hand = GetComponent<OVRHand>();
@@ -46,9 +48,6 @@ public class HandPinchMover : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        Debug.Log(objectToMove.localPosition.y < -0.183f);
-        Debug.Log("-----");
-        Debug.Log(  objectToMove.localPosition.y > -.815f);
         if (HandsManager.GetComponent<PianoPositionController>().canPositionPiano)
         {
             CheckIndexPinch();
@@ -105,9 +104,14 @@ public class HandPinchMover : MonoBehaviour
         if (isIndexPinching && conf == OVRHand.TrackingConfidence.High &&
             _skeleton.GetSkeletonType() == OVRSkeleton.SkeletonType.HandLeft)
         {
+            isLeftPinching = true;
             Vector3 relativePos = _thumbTipTransform.position - objectToMoveParent.position;
             Quaternion toRotation = Quaternion.LookRotation(relativePos * -1);
             objectToMoveParent.rotation = Quaternion.Lerp( objectToMoveParent.rotation, new Quaternion(objectToMoveParent.rotation.x, toRotation.y, objectToMoveParent.rotation.z, objectToMoveParent.rotation.w), 1 * Time.deltaTime );
+        }
+        else
+        {
+            isLeftPinching = false;
         }
     }
 
